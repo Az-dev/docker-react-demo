@@ -1,0 +1,31 @@
+#specify the image
+FROM node:alpine
+
+#change work directory
+WORKDIR '/app'
+
+#copy package.json
+COPY ./package.json .
+
+#run npm install 
+RUN npm install
+
+#creating node_modules
+RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
+
+#copy the rest of the files
+COPY . .
+
+#start the dev server
+CMD ["npm","run","start"]
+
+
+#dont forget to remove node_modules here -not in the container- befor building the image
+
+#Hint : to build this file .. because its name is customized -which mean not named after 'Dockerfile'- , so we have
+# to feed back this file to the docker build command like follows:
+# docker build -f Dockerfile.dev .
+
+#to run a container out of the image with volumes specified
+# docker run -it -p 3000:3000 -v /app/node_modules -v ~/frontend:/app <image-name>
+
