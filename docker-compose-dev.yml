@@ -1,0 +1,23 @@
+#specify the version
+version: "3"
+
+#specify the services
+services: 
+  react-app:
+    ports: 
+      - "3000:3000"
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes: 
+      - /app/node_modules #bookmarks or holds the refernce to node modules locally inside the container .. 
+      #y3ny msh berference l 7aga out of the container we be2olo est5dem el folder da elly gowa el container
+      - .:/app
+  app-tests: #this service or container is for run tests of the app
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes: 
+      - /app/node_modules
+      - .:/app
+    command: ["npm","run","test"] #overwritting the start up command -which in our case specified in the Dockerfile-
